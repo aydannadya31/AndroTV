@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediaDash Hub — Android TV & Mobil APK İndir</title>
+  <meta name="description" content="Android TV ve akıllı telefonlar için ev otomasyonu gösterge paneli ve soket tabanlı yerel medya merkezi.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090D16;
+      --surface-dark: #131B2A;
+      --surface-elevated: #1E293B;
+      --surface-border: #334155;
+      --primary: #10B981;
+      --primary-light: #34D399;
+      --primary-glow: rgba(16, 185, 129, 0.35);
+      --accent-cyan: #06B6D4;
+      --accent-amber: #F59E0B;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Background Glow */
+    .glow-sphere {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(9, 13, 22, 0.85);
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--surface-elevated);
+      border: 1.5px solid var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--primary);
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary-light);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--primary);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--surface-dark);
+      border: 1px solid var(--surface-border);
+      border-radius: 30px;
+      font-size: 13px;
+      color: var(--accent-cyan);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 5.5vw, 62px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #10B981, #34D399, #06B6D4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 36px;
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Download Buttons */
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 28px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #000;
+      box-shadow: 0 4px 20px var(--primary-glow);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.5);
+    }
+
+    .btn-secondary {
+      background: var(--surface-elevated);
+      color: var(--text-main);
+      border: 1px solid var(--surface-border);
+    }
+
+    .btn-secondary:hover {
+      background: #253347;
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary-light);
+      border: 1.5px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(16, 185, 129, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* QR Code Card */
+    .qr-banner {
+      background: linear-gradient(180deg, var(--surface-dark), #0B111D);
+      border: 1px solid var(--surface-border);
+      border-radius: 24px;
+      padding: 36px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      max-width: 880px;
+      margin: 0 auto 70px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .qr-info {
+      flex: 1;
+      min-width: 280px;
+      text-align: left;
+    }
+
+    .qr-info h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .qr-info p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .qr-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+    }
+
+    .meta-tag {
+      background: var(--surface-elevated);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--surface-border);
+      color: var(--accent-cyan);
+    }
+
+    .qr-box {
+      background: #FFFFFF;
+      padding: 16px;
+      border-radius: 18px;
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 25px var(--primary-glow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .qr-box svg {
+      width: 170px;
+      height: 170px;
+    }
+
+    .qr-label {
+      color: #0F172A;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Feature Grid */
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title h2 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .card {
+      background: var(--surface-dark);
+      border: 1px solid var(--surface-border);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .icon-green { background: rgba(16, 185, 129, 0.15); color: var(--primary); }
+    .icon-cyan { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+    .icon-amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+
+    .card h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* Steps Section */
+    .steps {
+      background: var(--surface-dark);
+      border: 1px solid var(--surface-border);
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 80px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+      margin-top: 32px;
+    }
+
+    .step-item {
+      position: relative;
+    }
+
+    .step-number {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--primary);
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .step-item h5 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-item p {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(51, 65, 85, 0.4);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--primary-light);
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .qr-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .qr-info {
+        text-align: center;
+      }
+      .qr-meta {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-sphere"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12zm-11-7v4l4-2-4-2z"/></svg>
+        </div>
+        <span>MediaDash <strong>Hub</strong></span>
+      </a>
+
+      <div class="badge-live">
+        <span class="pulse-dot"></span>
+        <span>Canlı Sürüm v1.0.0</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="container">
+    <section class="hero">
+      <div class="hero-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        Android TV • Akıllı Telefon • Google TV Uyumlu
+      </div>
+
+      <h1>
+        TV ve Telefonunuzu<br>
+        <span>Akıllı Bir Medya Merkezine</span> Dönüştürün
+      </h1>
+
+      <p>
+        Oturma odanızdaki TV ekranında hem canlı ev otomasyonu verilerini gösterin, hem de yerel ağ ve telefondaki tüm video, müzik ve fotoğrafları soket protokolüyle tek tıkla yansıtın.
+      </p>
+
+      <!-- Primary Download Actions -->
+      <div class="cta-group">
+        <a href="MediaDashHub-v1.0.apk" download="MediaDashHub-v1.0.apk" class="btn btn-primary">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+          Android TV İçin İndir (.APK)
+        </a>
+
+        <a href="MediaDashHub-v1.0.apk" download="MediaDashHub-v1.0.apk" class="btn btn-outline">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+          Telefon & Tablet İçin İndir (.APK)
+        </a>
+
+        <a href="https://ais-pre-ygpheilfwa7vmg3htszglk-843862008709.europe-west2.run.app" target="_blank" class="btn btn-secondary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+          Canlı Önizleme (Web Emulator)
+        </a>
+      </div>
+
+      <!-- Instant QR Code Scanner Box -->
+      <div class="qr-banner">
+        <div class="qr-info">
+          <h3>Doğrudan TV veya Telefondan İndirin</h3>
+          <p>Telefonunuzun kamerasını veya Android TV'nizin QR tarayıcısını okutarak <strong>MediaDashHub-v1.0.apk</strong> dosyasını saniyeler içinde doğrudan cihazınıza indirebilirsiniz.</p>
+          <div class="qr-meta">
+            <span class="meta-tag">Dosya: 23 MB</span>
+            <span class="meta-tag">Android 7.0+ (API 24+)</span>
+            <span class="meta-tag">MD5 / SHA-256 Onaylı</span>
+          </div>
+        </div>
+
+        <div class="qr-box">
+          <!-- Stylized Modern QR Code SVG -->
+          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200" height="200" fill="white"/>
+            <!-- Top-Left Finder -->
+            <rect x="15" y="15" width="46" height="46" rx="8" fill="#090D16"/>
+            <rect x="23" y="23" width="30" height="30" rx="4" fill="white"/>
+            <rect x="29" y="29" width="18" height="18" rx="4" fill="#10B981"/>
+            <!-- Top-Right Finder -->
+            <rect x="139" y="15" width="46" height="46" rx="8" fill="#090D16"/>
+            <rect x="147" y="23" width="30" height="30" rx="4" fill="white"/>
+            <rect x="153" y="29" width="18" height="18" rx="4" fill="#10B981"/>
+            <!-- Bottom-Left Finder -->
+            <rect x="15" y="139" width="46" height="46" rx="8" fill="#090D16"/>
+            <rect x="23" y="147" width="30" height="30" rx="4" fill="white"/>
+            <rect x="29" y="153" width="18" height="18" rx="4" fill="#10B981"/>
+            <!-- Data modules -->
+            <rect x="70" y="20" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="85" y="20" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="100" y="20" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="115" y="35" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="70" y="50" width="10" height="10" rx="2" fill="#10B981"/>
+            <rect x="85" y="50" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="100" y="65" width="10" height="10" rx="2" fill="#090D16"/>
+            <!-- Center TV Symbol -->
+            <rect x="80" y="80" width="40" height="40" rx="8" fill="#10B981"/>
+            <path d="M93 92L107 100L93 108V92Z" fill="black"/>
+            <!-- Bottom data modules -->
+            <rect x="70" y="130" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="85" y="145" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="100" y="130" width="10" height="10" rx="2" fill="#10B981"/>
+            <rect x="130" y="130" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="145" y="145" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="160" y="130" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="130" y="160" width="10" height="10" rx="2" fill="#090D16"/>
+            <rect x="160" y="160" width="10" height="10" rx="2" fill="#10B981"/>
+          </svg>
+          <span class="qr-label">APK İndirme Kodu</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Capabilities -->
+    <section>
+      <div class="section-title">
+        <h2>Güçlü Ev Otomasyonu & Medya Özellikleri</h2>
+        <p>İki bağımsız uygulamayı tek bir kusursuz Android TV ve mobil deneyiminde birleştirin.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon icon-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+          </div>
+          <h4>Split-Dashboard & TV Odak Motoru</h4>
+          <p>Sol panelde canlı saat, hava durumu ve Home Assistant MQTT sensörleri; sağ panelde 4K HDR yerel afiş akışı. TV kumandası D-pad ile pürüzsüz ölçekleme animasyonu.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon icon-cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+          </div>
+          <h4>Soket Tabanlı Medya Yansıtma</h4>
+          <p>Telefondan seçilen 4K fotoğraflar, Hi-Res FLAC müzikler ve yüksek bitrate videolar yerel TCP soketi (:8095) üzerinden parçalı akışla TV'ye anında aktarılır.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon icon-amber">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          </div>
+          <h4>QR Kod & PIN Güvenli Eşleştirme</h4>
+          <p>TV ekranında üretilen optik QR kod veya dinamik 6 haneli PIN ile telefonlar yetkilendirilir. Token tabanlı kimlik doğrulama ile yabancı cihaz erişimi engellenir.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Installation Guide -->
+    <section class="steps">
+      <div class="section-title" style="margin-bottom: 24px;">
+        <h2>Hızlı Kurulum Rehberi</h2>
+        <p>MediaDash Hub APK'sını cihazlarınıza 3 kolay adımda yükleyin.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-number">01</div>
+          <h5>APK Dosyasını İndirin</h5>
+          <p>Yukarıdaki indirme butonunu kullanarak <code>MediaDashHub-v1.0.apk</code> dosyasını bilgisayarınıza veya telefonunuza indirin.</p>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">02</div>
+          <h5>TV veya Telefona Yükleyin</h5>
+          <p><strong>TV İçin:</strong> USB bellek veya "Downloader" uygulaması ile APK'yı açıp yükleyin.<br><strong>Telefon İçin:</strong> Dosyayı açıp "Bilinmeyen Kaynaklar" iznini onaylayın.</p>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">03</div>
+          <h5>QR Kod ile Eşleşin</h5>
+          <p>TV'de MediaDash Hub'ı açın, telefonunuzdan "QR Tara" butonuna basarak TV ekranındaki kodu okutun ve anında yayına başlayın!</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>MediaDash Hub — Android TV & Mobil Entegre Sistem Mimarisi</p>
+      <p style="margin-top: 8px; font-size: 13px;">
+        Kaynak Kodlar: <a href="https://github.com" target="_blank">GitHub Repository</a> • Canlı Önizleme: <a href="https://ais-pre-ygpheilfwa7vmg3htszglk-843862008709.europe-west2.run.app" target="_blank">AI Studio Cloud</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
