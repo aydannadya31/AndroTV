@@ -12,14 +12,30 @@ android {
   namespace = "com.example"
   compileSdk { version = release(36) { minorApiLevel = 1 } }
 
+  val targetApp = (project.findProperty("targetApp") as? String) ?: "universal"
+
   defaultConfig {
-    applicationId = "com.aistudio.mediadash.hqtz"
+    applicationId = when (targetApp) {
+      "tv" -> "com.aistudio.mediadashhub.tv"
+      "phone" -> "com.aistudio.mediadashhub.phone"
+      else -> "com.aistudio.mediadash.hqtz"
+    }
     minSdk = 24
     targetSdk = 36
     versionCode = 1
     versionName = "1.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+  }
+
+  sourceSets {
+    getByName("main") {
+      when (targetApp) {
+        "tv" -> manifest.srcFile("src/main/AndroidManifest.xml.tv")
+        "phone" -> manifest.srcFile("src/main/AndroidManifest.xml.phone")
+        else -> manifest.srcFile("src/main/AndroidManifest.xml")
+      }
+    }
   }
 
   // Do not remove or modify these signingConfigs. They are necessary for building, installing,

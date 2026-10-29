@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Telefon Özel İzinleri: Kamera QR Vizör, Arka Plan Yayın Servisi, WakeLock, Bildirimler -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Telefon Donanım Özellikleri: Dokunmatik ekran ve Kamera zorunlu, Leanback gerekmez -->
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name_phone"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication">
+
+        <!-- Telefon Tek ve Ana Başlatıcı Aktivitesi: Kamera QR Okuyucu, Galeri Seçici, Canlı RAM Soket Yayını -->
+        <activity
+            android:name=".PhoneActivity"
+            android:exported="true"
+            android:label="@string/app_name_phone"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:theme="@style/Theme.MyApplication">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Telefon Kamera QR Tarayıcı Ekranı -->
+        <activity
+            android:name=".PairingActivity"
+            android:exported="false"
+            android:label="QR Vizör Tarayıcı"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:theme="@style/Theme.MyApplication" />
+
+        <!-- Telefon Ön Plan Yayın Servisi (Kilit ekranında canlı yayın koruması) -->
+        <service
+            android:name=".service.PhoneStreamingForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice|mediaPlayback" />
+
+    </application>
+
+</manifest>

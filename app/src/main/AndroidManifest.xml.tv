@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- TV Özel İzinleri: Sadece yerel ağ ve WiFi (Kamera izni, ön plan telefon servisi yoktur) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- Android TV / Leanback Donanım Özellikleri: Dokunmatik ekran gerekmez, Leanback zorunlu -->
+    <uses-feature android:name="android.software.leanback" android:required="true" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name_tv"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:banner="@mipmap/ic_launcher"
+        android:theme="@style/Theme.MyApplication">
+
+        <!-- TV Tek ve Ana Başlatıcı Aktivitesi: 10-foot TV arayüzü, D-Pad kumanda, Saat, Hava Durumu, MQTT, 4K Oynatıcı, TV Eşleşme QR -->
+        <activity
+            android:name=".TvActivity"
+            android:exported="true"
+            android:label="@string/app_name_tv"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:theme="@style/Theme.MyApplication">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- TV Eşleştirme QR Gösterim Ekranı -->
+        <activity
+            android:name=".PairingActivity"
+            android:exported="false"
+            android:label="TV Eşleştirme QR"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:theme="@style/Theme.MyApplication" />
+
+    </application>
+
+</manifest>
