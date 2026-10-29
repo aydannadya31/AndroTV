@@ -18,6 +18,7 @@ enum class PacketType {
     MEDIA_START,
     CHUNK_DATA,
     MEDIA_COMPLETE,
+    LIVE_STREAM_START,
     PING,
     ERROR
 }

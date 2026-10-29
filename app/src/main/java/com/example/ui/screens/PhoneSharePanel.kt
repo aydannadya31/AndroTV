@@ -316,32 +316,65 @@ fun PhoneSharePanel(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     val localContext = LocalContext.current
-                    Button(
-                        onClick = {
-                            val intent = Intent(localContext, PairingActivity::class.java).apply {
-                                putExtra("INITIAL_MODE", "PHONE_SCANNER")
-                            }
-                            qrScanLauncher.launch(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = TvSurfaceElevated),
-                        shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(44.dp)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.QrCodeScanner,
-                            contentDescription = "QR Kod Tara",
-                            tint = EmeraldPrimary,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "TV QR Kodunu Kamerayla Tara",
-                            color = TextPrimary,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        Button(
+                            onClick = {
+                                val intent = Intent(localContext, PairingActivity::class.java).apply {
+                                    putExtra("INITIAL_MODE", "PHONE_SCANNER")
+                                }
+                                qrScanLauncher.launch(intent)
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = EmeraldPrimary.copy(alpha = 0.2f)),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, EmeraldPrimary),
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier
+                                .weight(1.3f)
+                                .height(44.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.QrCodeScanner,
+                                contentDescription = "QR Kod Tara",
+                                tint = EmeraldPrimary,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = "TV QR'ı Tara",
+                                color = EmeraldLight,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+
+                        Button(
+                            onClick = {
+                                val intent = Intent(localContext, PairingActivity::class.java).apply {
+                                    putExtra("INITIAL_MODE", "TV_QR_PAIRING")
+                                }
+                                localContext.startActivity(intent)
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = TvSurfaceElevated),
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(44.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Tv,
+                                contentDescription = "TV QR Göster",
+                                tint = AccentCyan,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = "TV QR'ı Göster",
+                                color = TextPrimary,
+                                fontSize = 11.sp
+                            )
+                        }
                     }
 
                     if (uiState.pairingErrorMessage != null) {
@@ -464,10 +497,46 @@ fun PhoneSharePanel(
             }
         }
 
+        // TV'ye Yüklemeden Doğrudan Canlı Yayın Bilgi Kartı
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFF0C1929))
+                    .border(1.dp, AccentCyan.copy(alpha = 0.5f), RoundedCornerShape(12.dp))
+                    .padding(12.dp)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Speed,
+                        contentDescription = null,
+                        tint = AccentCyan,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Column {
+                        Text(
+                            text = "TV'ye Yüklemeden Doğrudan Canlı Yayın (Zero-Storage)",
+                            color = TextPrimary,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Medya TV hafızasına yüklenmez, telefon üzerinden anlık okunur. Ekran kapansa ve kilitlense bile yayın kesintisiz sürer.",
+                            color = TextSecondary,
+                            fontSize = 11.sp,
+                            lineHeight = 14.sp
+                        )
+                    }
+                }
+            }
+        }
+
         // Medya Seçim Başlığı
         item {
             Text(
-                text = "GÜVENLİ SOCKET İLE TV'YE YANSIT",
+                text = "TELEFONDAN SEÇ & TV'DE CANLI YAYINLA",
                 color = TextMuted,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,

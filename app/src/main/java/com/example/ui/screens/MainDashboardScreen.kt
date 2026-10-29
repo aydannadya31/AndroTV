@@ -41,6 +41,8 @@ import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material.icons.filled.QrCode
 import android.content.Intent
 import com.example.PairingActivity
+import com.example.ui.components.QrCodeView
+import org.json.JSONObject
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -48,6 +50,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -353,32 +356,26 @@ fun SmartDashSection(
             }
         }
 
-        // TV Güvenli Eşleştirme ve Socket Durum Kartı (PIN & QR Kod Açma)
+        // TV Güvenli Eşleştirme ve Telefon APK İndirme QR Kartı
         item {
             val context = LocalContext.current
-            TvFocusableCard(
-                onClick = {
-                    val intent = Intent(context, PairingActivity::class.java).apply {
-                        putExtra("INITIAL_MODE", "TV_DISPLAY")
-                    }
-                    context.startActivity(intent)
-                },
-                shape = RoundedCornerShape(14.dp),
-                backgroundColor = Color(0xFF0F172A),
-                focusedBorderColor = EmeraldPrimary,
-                testTag = "btn_tv_pairing_card"
-            ) { isFocused ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color(0xFF0F172A))
+                    .border(1.dp, TvSurfaceBorder, RoundedCornerShape(16.dp))
+                    .padding(14.dp)
+            ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 14.dp, vertical = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = Modifier
-                                .size(36.dp)
+                                .size(34.dp)
                                 .clip(CircleShape)
                                 .background(EmeraldPrimary.copy(alpha = 0.2f)),
                             contentAlignment = Alignment.Center
@@ -387,46 +384,176 @@ fun SmartDashSection(
                                 imageVector = Icons.Default.QrCode,
                                 contentDescription = "QR Kod",
                                 tint = EmeraldPrimary,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(18.dp)
                             )
                         }
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                text = "TV Güvenli Eşleşme (QR)",
+                                text = "Hızlı QR & Eşleşme",
                                 color = TextPrimary,
-                                fontSize = 12.sp,
+                                fontSize = 13.sp,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
                                 text = "${uiState.tvIpAddress}:8095 (TCP)",
-                                color = TextSecondary,
+                                color = AccentCyan,
                                 fontSize = 10.sp
                             )
                         }
                     }
 
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(EmeraldPrimary)
+                            .padding(horizontal = 8.dp, vertical = 3.dp)
+                    ) {
+                        Text(
+                            text = uiState.tvPairCode,
+                            color = Color.Black,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Black,
+                            letterSpacing = 1.5.sp
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    TvFocusableCard(
+                        onClick = {
+                            val intent = Intent(context, PairingActivity::class.java).apply {
+                                putExtra("INITIAL_MODE", "TV_QR_PAIRING")
+                            }
+                            context.startActivity(intent)
+                        },
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(10.dp),
+                        backgroundColor = TvSurfaceElevated,
+                        focusedBorderColor = EmeraldPrimary,
+                        testTag = "btn_tv_pairing_qr"
+                    ) { isFocused ->
+                        Row(
                             modifier = Modifier
-                                .clip(RoundedCornerShape(6.dp))
-                                .background(EmeraldPrimary)
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp, horizontal = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
                         ) {
+                            Icon(
+                                imageVector = Icons.Default.QrCode,
+                                contentDescription = null,
+                                tint = if (isFocused) EmeraldPrimary else EmeraldLight,
+                                modifier = Modifier.size(15.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = uiState.tvPairCode,
-                                color = Color.Black,
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.Black,
-                                letterSpacing = 2.sp
+                                text = "Eşleşme QR",
+                                color = TextPrimary,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold
                             )
                         }
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Icon(
-                            imageVector = Icons.Default.QrCode,
-                            contentDescription = "Tam Ekran QR",
-                            tint = if (isFocused) EmeraldPrimary else TextMuted,
-                            modifier = Modifier.size(18.dp)
+                    }
+
+                    TvFocusableCard(
+                        onClick = {
+                            val intent = Intent(context, PairingActivity::class.java).apply {
+                                putExtra("INITIAL_MODE", "DOWNLOAD_PHONE_APK")
+                            }
+                            context.startActivity(intent)
+                        },
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(10.dp),
+                        backgroundColor = TvSurfaceElevated,
+                        focusedBorderColor = AccentCyan,
+                        testTag = "btn_phone_apk_download_qr"
+                    ) { isFocused ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp, horizontal = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Smartphone,
+                                contentDescription = null,
+                                tint = if (isFocused) AccentCyan else Color(0xFF38BDF8),
+                                modifier = Modifier.size(15.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = "Telefon İndir",
+                                color = TextPrimary,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
+
+                // Doğrudan TV Ekranında Hızlı Bağlantı QR Kodu (Telefonla Anında Tara)
+                val inlineQrPayload = remember(uiState.tvIpAddress, uiState.tvPairCode) {
+                    JSONObject().apply {
+                        put("protocol", "MDHP_V1")
+                        put("app", "MediaDashCast")
+                        put("role", "TV_RECEIVER")
+                        put("tvName", "MediaDash Hub TV")
+                        put("ip", uiState.tvIpAddress)
+                        put("port", 8095)
+                        put("pin", uiState.tvPairCode)
+                    }.toString()
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color(0xFF09111F))
+                        .border(1.dp, EmeraldPrimary.copy(alpha = 0.35f), RoundedCornerShape(12.dp))
+                        .clickable {
+                            val intent = Intent(context, PairingActivity::class.java).apply {
+                                putExtra("INITIAL_MODE", "TV_QR_PAIRING")
+                            }
+                            context.startActivity(intent)
+                        }
+                        .padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(Color.White)
+                            .padding(2.dp)
+                    ) {
+                        QrCodeView(
+                            dataString = inlineQrPayload,
+                            sizeDp = 80.dp
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    Column {
+                        Text(
+                            text = "Hızlı Telefon Bağlantısı",
+                            color = TextPrimary,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Telefon kamerasını bu QR koda tutun, anında eşleşin ve yayına başlayın.",
+                            color = TextMuted,
+                            fontSize = 10.sp,
+                            lineHeight = 13.sp
                         )
                     }
                 }

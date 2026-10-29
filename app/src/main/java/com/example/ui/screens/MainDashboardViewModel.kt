@@ -314,7 +314,8 @@ class MainDashboardViewModel(application: Application) : AndroidViewModel(applic
     }
 
     /**
-     * Socket Tabanlı Güvenli Parçalı Medya İletimi (Ses, Resim, Video)
+     * Socket Tabanlı TV'ye Yükleme Yapmadan Telefon Üzerinden Canlı Medya Yayını
+     * (Fotoğraf, Video, Müzik, Ses - Kilit ekranı / Ekran kapalıyken kesintisiz akış)
      */
     fun streamMediaOverSocket(title: String, type: MediaType, uriOrData: String) {
         val session = socketTransmissionService.activePhoneSession.value
@@ -325,20 +326,26 @@ class MainDashboardViewModel(application: Application) : AndroidViewModel(applic
             val activeSession = session ?: socketTransmissionService.pairWithTv(_targetTvIp.value, uiState.value.tvPairCode).getOrNull()
 
             if (activeSession != null) {
-                val success = socketTransmissionService.streamMediaOverSocket(
+                val mediaUri = try {
+                    if (uriOrData.startsWith("content://") || uriOrData.startsWith("file://")) {
+                        android.net.Uri.parse(uriOrData)
+                    } else null
+                } catch (_: Exception) { null }
+
+                val success = socketTransmissionService.streamLiveMediaFromPhone(
                     tvIp = _targetTvIp.value,
                     session = activeSession,
                     fileName = title,
                     mediaType = type,
-                    fileSizeEstimate = if (type == MediaType.PHOTO) 3L * 1024 * 1024 else if (type == MediaType.MUSIC) 18L * 1024 * 1024 else 45L * 1024 * 1024,
+                    mediaUri = mediaUri,
                     onProgressUpdate = { progress ->
                         _activeTransferProgress.value = progress
                     }
                 )
                 if (success) {
-                    _castNotification.value = "✅ \"$title\" soket üzerinden TV'ye iletildi!"
+                    _castNotification.value = "🔒 TV'ye Yüklenmeden Yayınlandı: \"$title\" (Kilit ekranında yayın devam eder)"
                 } else {
-                    _castNotification.value = "⚠️ Socket iletiminde hata oluştu."
+                    _castNotification.value = "⚠️ Canlı yayın aktarımında hata oluştu."
                 }
             } else {
                 _castNotification.value = "⚠️ Lütfen önce TV PIN kodu ile eşleşin."
