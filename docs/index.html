@@ -474,35 +474,56 @@
         Oturma odanızdaki TV ekranında hem canlı ev otomasyonu verilerini gösterin, hem de yerel ağ ve telefondaki tüm video, müzik ve fotoğrafları soket protokolüyle tek tıkla yansıtın.
       </p>
 
-      <!-- Primary Download Actions -->
-      <div class="cta-group">
-        <a href="MediaDashHub-v1.0.apk" download="MediaDashHub-v1.0.apk" class="btn btn-primary">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
-          Android TV İçin İndir (.APK)
-        </a>
+      <!-- Primary Download Actions: Separate TV and Phone APKs -->
+      <div class="cta-group" style="gap: 20px; max-width: 900px; margin: 0 auto 48px;">
+        <div style="flex: 1; min-width: 280px; background: var(--surface-dark); border: 2px solid var(--primary); border-radius: 20px; padding: 24px; text-align: left; box-shadow: 0 8px 30px var(--primary-glow);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <span style="background: rgba(16, 185, 129, 0.2); color: var(--primary-light); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700;">TV SÜRÜMÜ</span>
+            <span style="color: var(--text-muted); font-size: 13px;">v1.0.0 (TV Hub)</span>
+          </div>
+          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #fff;">MediaDash Hub TV</h3>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">TV Kutuları ve Akıllı TV'ler için: Alıcı servis, Smart Dash (Hava Durumu, Saat, MQTT) ve 4K Donanımsal Oynatıcı.</p>
+          <a href="MediaDashHub-TV-v1.0.apk" download="MediaDashHub-TV-v1.0.apk" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12zm-11-7v4l4-2-4-2z"/></svg>
+            TV APK İndir (Alıcı)
+          </a>
+          <div style="margin-top: 10px; font-size: 11px; color: var(--text-muted); text-align: center;">
+            <a href="MediaDashHub-TV-v1.0.apk.sha256" target="_blank" style="color: var(--primary-light); text-decoration: underline;">SHA-256 Doğrulama</a>
+          </div>
+        </div>
 
-        <a href="MediaDashHub-v1.0.apk" download="MediaDashHub-v1.0.apk" class="btn btn-outline">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
-          Telefon & Tablet İçin İndir (.APK)
-        </a>
+        <div style="flex: 1; min-width: 280px; background: var(--surface-dark); border: 2px solid var(--accent-cyan); border-radius: 20px; padding: 24px; text-align: left; box-shadow: 0 8px 30px rgba(6, 182, 212, 0.2);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <span style="background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700;">TELEFON SÜRÜMÜ</span>
+            <span style="color: var(--text-muted); font-size: 13px;">v1.0.0 (Cast Sender)</span>
+          </div>
+          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #fff;">MediaDash Cast</h3>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Akıllı Telefonlar için: TV'ye bağlanıp fotoğraf, yüksek çözünürlüklü ses/müzik ve video aktarma arayüzü.</p>
+          <a href="MediaDashHub-Phone-v1.0.apk" download="MediaDashHub-Phone-v1.0.apk" class="btn btn-secondary" style="width: 100%; justify-content: center; border-color: var(--accent-cyan); color: #fff;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+            Telefon APK İndir (İletici)
+          </a>
+          <div style="margin-top: 10px; font-size: 11px; color: var(--text-muted); text-align: center;">
+            <a href="MediaDashHub-Phone-v1.0.apk.sha256" target="_blank" style="color: var(--accent-cyan); text-decoration: underline;">SHA-256 Doğrulama</a>
+          </div>
+        </div>
       </div>
 
       <!-- Instant QR Code Scanner Box -->
       <div class="qr-banner">
         <div class="qr-info">
-          <h3>Doğrudan TV veya Telefondan İndirin</h3>
-          <p>Telefonunuzun kamerasını veya Android TV'nizin QR tarayıcısını okutarak <strong>MediaDashHub-v1.0.apk</strong> dosyasını saniyeler içinde doğrudan cihazınıza indirebilirsiniz.</p>
-          <div class="qr-meta">
-            <span class="meta-tag">Dosya: 23 MB</span>
+          <h3>Hızlı Kurulum ve İndirme QR Kodu</h3>
+          <p>Telefonunuzun kamerasını veya TV'nizin QR okuyucusunu tutarak web sayfasına ve APK indirme bağlantılarına anında erişin.</p>
+          <div class="qr-meta" style="flex-wrap: wrap;">
+            <span class="meta-tag">TV APK: MediaDashHub-TV-v1.0.apk</span>
+            <span class="meta-tag">Telefon APK: MediaDashHub-Phone-v1.0.apk</span>
             <span class="meta-tag">Android 7.0+ (API 24+)</span>
-            <span class="meta-tag">SHA-256: 9be92d95a79a…</span>
-            <span class="meta-tag"><a href="MediaDashHub-v1.0.apk.sha256" style="color:inherit;text-decoration:underline;">Doğrulama dosyası</a></span>
           </div>
         </div>
 
         <div class="qr-box">
-          <img src="apk-qr.png" alt="MediaDash Hub v1.0 APK indirme QR kodu" width="170" height="170" decoding="async">
-          <span class="qr-label">APK İndirme Kodu</span>
+          <img src="apk-qr.png" alt="MediaDash Hub APK indirme QR kodu" width="170" height="170" decoding="async">
+          <span class="qr-label">Hızlı İndirme Kodu</span>
         </div>
       </div>
     </section>

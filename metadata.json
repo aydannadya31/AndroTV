@@ -2,5 +2,7 @@
   "name": "MediaDash Hub",
   "description": "Android TV için akıllı ev gösterge paneli ve yerel medya merkezi",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

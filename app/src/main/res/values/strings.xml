@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MediaDash Hub</string>
+    <string name="app_name_tv">MediaDash Hub TV</string>
+    <string name="app_name_phone">MediaDash Cast</string>
 </resources>
