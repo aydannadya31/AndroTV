@@ -230,79 +230,186 @@
       transform: translateY(-2px);
     }
 
-    /* QR Code Card */
-    .qr-banner {
-      background: linear-gradient(180deg, var(--surface-dark), #0B111D);
-      border: 1px solid var(--surface-border);
+    /* Download Cards with Dedicated QR Codes */
+    .download-card {
+      flex: 1;
+      min-width: 300px;
+      background: var(--surface-dark);
       border-radius: 24px;
-      padding: 36px;
+      padding: 30px;
+      text-align: left;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+
+    .tv-card {
+      border: 2px solid var(--primary);
+      box-shadow: 0 10px 30px var(--primary-glow);
+    }
+
+    .tv-card:hover {
+      box-shadow: 0 14px 40px rgba(16, 185, 129, 0.45);
+      transform: translateY(-3px);
+    }
+
+    .phone-card {
+      border: 2px solid var(--accent-cyan);
+      box-shadow: 0 10px 30px rgba(6, 182, 212, 0.25);
+    }
+
+    .phone-card:hover {
+      box-shadow: 0 14px 40px rgba(6, 182, 212, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .card-top-badge {
+      display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 32px;
-      max-width: 880px;
-      margin: 0 auto 70px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      margin-bottom: 14px;
     }
 
-    .qr-info {
-      flex: 1;
-      min-width: 280px;
-      text-align: left;
+    .badge-tag {
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
     }
 
-    .qr-info h3 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--text-main);
+    .badge-tv {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--primary-light);
+      border: 1px solid rgba(16, 185, 129, 0.4);
     }
 
-    .qr-info p {
+    .badge-phone {
+      background: rgba(6, 182, 212, 0.2);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.4);
+    }
+
+    .version-label {
       color: var(--text-muted);
-      font-size: 14px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #FFFFFF;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      min-height: 40px;
+    }
+
+    .download-btn {
+      width: 100%;
+      justify-content: center;
       margin-bottom: 18px;
     }
 
-    .qr-meta {
-      display: flex;
-      gap: 16px;
-      font-size: 13px;
-    }
-
-    .meta-tag {
+    .phone-btn {
       background: var(--surface-elevated);
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--surface-border);
-      color: var(--accent-cyan);
+      border: 1.5px solid var(--accent-cyan);
+      color: #FFFFFF;
     }
 
-    .qr-box {
+    .phone-btn:hover {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: #38BDF8;
+    }
+
+    /* Dedicated Per-APK QR Container */
+    .dedicated-qr-container {
       background: #FFFFFF;
-      padding: 16px;
       border-radius: 18px;
-      border: 3px solid var(--primary);
-      box-shadow: 0 0 25px var(--primary-glow);
+      padding: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      text-align: center;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
     }
 
-    .qr-box svg,
-    .qr-box img {
-      width: 170px;
-      height: 170px;
+    .qr-tv-border {
+      border: 3px solid var(--primary);
     }
 
-    .qr-label {
+    .qr-phone-border {
+      border: 3px solid var(--accent-cyan);
+    }
+
+    .qr-image-wrapper {
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-image-wrapper img {
+      width: 150px;
+      height: 150px;
+      display: block;
+    }
+
+    .qr-text-meta {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .qr-heading {
       color: #0F172A;
-      font-size: 11px;
-      font-weight: 700;
-      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
+    }
+
+    .qr-instruction {
+      color: #64748B;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .qr-instruction strong {
+      color: #0F172A;
+    }
+
+    .card-footer-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-top: 10px;
+      border-top: 1px solid rgba(51, 65, 85, 0.4);
+    }
+
+    .file-size-badge {
+      font-weight: 600;
+    }
+
+    .sha-link {
+      color: var(--primary-light);
+      text-decoration: underline;
+      font-size: 12px;
+    }
+
+    .phone-sha {
+      color: var(--accent-cyan);
     }
 
     /* Feature Grid */
@@ -423,16 +530,12 @@
       text-decoration: none;
     }
 
-    @media (max-width: 640px) {
-      .qr-banner {
+    @media (max-width: 768px) {
+      .cta-group {
         flex-direction: column;
-        text-align: center;
       }
-      .qr-info {
-        text-align: center;
-      }
-      .qr-meta {
-        justify-content: center;
+      .download-card {
+        min-width: 100%;
       }
     }
   </style>
@@ -474,56 +577,72 @@
         Oturma odanızdaki TV ekranında hem canlı ev otomasyonu verilerini gösterin, hem de yerel ağ ve telefondaki tüm video, müzik ve fotoğrafları soket protokolüyle tek tıkla yansıtın.
       </p>
 
-      <!-- Primary Download Actions: Separate TV and Phone APKs -->
-      <div class="cta-group" style="gap: 20px; max-width: 900px; margin: 0 auto 48px;">
-        <div style="flex: 1; min-width: 280px; background: var(--surface-dark); border: 2px solid var(--primary); border-radius: 20px; padding: 24px; text-align: left; box-shadow: 0 8px 30px var(--primary-glow);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-            <span style="background: rgba(16, 185, 129, 0.2); color: var(--primary-light); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700;">TV SÜRÜMÜ</span>
-            <span style="color: var(--text-muted); font-size: 13px;">v1.0.0 (TV Hub)</span>
+      <!-- Primary Download Actions: Separate TV and Phone APKs with Dedicated QR Codes -->
+      <div class="cta-group" style="gap: 28px; max-width: 960px; margin: 0 auto 60px; align-items: stretch;">
+        <!-- TV APK DOWNLOAD CARD -->
+        <div class="download-card tv-card">
+          <div>
+            <div class="card-top-badge">
+              <span class="badge-tag badge-tv">TV SÜRÜMÜ (ALICI)</span>
+              <span class="version-label">v1.0.0 (TV Hub)</span>
+            </div>
+            <h3 class="card-title">MediaDash Hub TV</h3>
+            <p class="card-desc">TV Kutuları ve Akıllı TV'ler için: Alıcı servis, Smart Dash (Hava Durumu, Saat, MQTT) ve 4K Donanımsal Oynatıcı.</p>
+            
+            <a href="MediaDashHub-TV-v1.0.apk" download="MediaDashHub-TV-v1.0.apk" class="btn btn-primary download-btn">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12zm-11-7v4l4-2-4-2z"/></svg>
+              TV APK İndir (Alıcı)
+            </a>
           </div>
-          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #fff;">MediaDash Hub TV</h3>
-          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">TV Kutuları ve Akıllı TV'ler için: Alıcı servis, Smart Dash (Hava Durumu, Saat, MQTT) ve 4K Donanımsal Oynatıcı.</p>
-          <a href="MediaDashHub-TV-v1.0.apk" download="MediaDashHub-TV-v1.0.apk" class="btn btn-primary" style="width: 100%; justify-content: center;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12zm-11-7v4l4-2-4-2z"/></svg>
-            TV APK İndir (Alıcı)
-          </a>
-          <div style="margin-top: 10px; font-size: 11px; color: var(--text-muted); text-align: center;">
-            <a href="MediaDashHub-TV-v1.0.apk.sha256" target="_blank" style="color: var(--primary-light); text-decoration: underline;">SHA-256 Doğrulama</a>
+
+          <!-- TV APK Dedicated QR Code -->
+          <div class="dedicated-qr-container qr-tv-border">
+            <div class="qr-image-wrapper">
+              <img src="tv-apk-qr.svg" alt="MediaDash TV APK İndirme QR Kodu" width="150" height="150" decoding="async">
+            </div>
+            <div class="qr-text-meta">
+              <span class="qr-heading">TV APK İndirme QR Kodu</span>
+              <span class="qr-instruction">TV'deki <strong>Downloader</strong> veya telefon kamerasıyla tarayın</span>
+            </div>
+          </div>
+
+          <div class="card-footer-meta">
+            <span class="file-size-badge">23 MB • APK</span>
+            <a href="MediaDashHub-TV-v1.0.apk.sha256" target="_blank" class="sha-link">SHA-256 Doğrulama</a>
           </div>
         </div>
 
-        <div style="flex: 1; min-width: 280px; background: var(--surface-dark); border: 2px solid var(--accent-cyan); border-radius: 20px; padding: 24px; text-align: left; box-shadow: 0 8px 30px rgba(6, 182, 212, 0.2);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-            <span style="background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700;">TELEFON SÜRÜMÜ</span>
-            <span style="color: var(--text-muted); font-size: 13px;">v1.0.0 (Cast Sender)</span>
-          </div>
-          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #fff;">MediaDash Cast</h3>
-          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Akıllı Telefonlar için: TV'ye bağlanıp fotoğraf, yüksek çözünürlüklü ses/müzik ve video aktarma arayüzü.</p>
-          <a href="MediaDashHub-Phone-v1.0.apk" download="MediaDashHub-Phone-v1.0.apk" class="btn btn-secondary" style="width: 100%; justify-content: center; border-color: var(--accent-cyan); color: #fff;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
-            Telefon APK İndir (İletici)
-          </a>
-          <div style="margin-top: 10px; font-size: 11px; color: var(--text-muted); text-align: center;">
-            <a href="MediaDashHub-Phone-v1.0.apk.sha256" target="_blank" style="color: var(--accent-cyan); text-decoration: underline;">SHA-256 Doğrulama</a>
-          </div>
-        </div>
-      </div>
+        <!-- PHONE APK DOWNLOAD CARD -->
+        <div class="download-card phone-card">
+          <div>
+            <div class="card-top-badge">
+              <span class="badge-tag badge-phone">TELEFON SÜRÜMÜ (İLETİCİ)</span>
+              <span class="version-label">v1.0.0 (Cast Sender)</span>
+            </div>
+            <h3 class="card-title">MediaDash Cast</h3>
+            <p class="card-desc">Akıllı Telefonlar için: TV'ye bağlanıp fotoğraf, yüksek çözünürlüklü ses/müzik ve video aktarma arayüzü.</p>
 
-      <!-- Instant QR Code Scanner Box -->
-      <div class="qr-banner">
-        <div class="qr-info">
-          <h3>Hızlı Kurulum ve İndirme QR Kodu</h3>
-          <p>Telefonunuzun kamerasını veya TV'nizin QR okuyucusunu tutarak web sayfasına ve APK indirme bağlantılarına anında erişin.</p>
-          <div class="qr-meta" style="flex-wrap: wrap;">
-            <span class="meta-tag">TV APK: MediaDashHub-TV-v1.0.apk</span>
-            <span class="meta-tag">Telefon APK: MediaDashHub-Phone-v1.0.apk</span>
-            <span class="meta-tag">Android 7.0+ (API 24+)</span>
+            <a href="MediaDashHub-Phone-v1.0.apk" download="MediaDashHub-Phone-v1.0.apk" class="btn btn-secondary phone-btn download-btn">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+              Telefon APK İndir (İletici)
+            </a>
           </div>
-        </div>
 
-        <div class="qr-box">
-          <img src="apk-qr.png" alt="MediaDash Hub APK indirme QR kodu" width="170" height="170" decoding="async">
-          <span class="qr-label">Hızlı İndirme Kodu</span>
+          <!-- Phone APK Dedicated QR Code -->
+          <div class="dedicated-qr-container qr-phone-border">
+            <div class="qr-image-wrapper">
+              <img src="phone-apk-qr.svg" alt="MediaDash Telefon APK İndirme QR Kodu" width="150" height="150" decoding="async">
+            </div>
+            <div class="qr-text-meta">
+              <span class="qr-heading">Telefon APK İndirme QR Kodu</span>
+              <span class="qr-instruction">Telefon kamerasını tutun, APK'yı doğrudan indirin</span>
+            </div>
+          </div>
+
+          <div class="card-footer-meta">
+            <span class="file-size-badge">23 MB • APK</span>
+            <a href="MediaDashHub-Phone-v1.0.apk.sha256" target="_blank" class="sha-link phone-sha">SHA-256 Doğrulama</a>
+          </div>
         </div>
       </div>
     </section>
