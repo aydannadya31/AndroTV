@@ -11,8 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.ui.screens.DeviceMode
-import com.example.ui.screens.MainDashboardScreen
 import com.example.ui.screens.MainDashboardViewModel
+import com.example.ui.screens.PhoneHomeScreen
+import com.example.ui.screens.TvDashboardScreen
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.TvBackgroundDark
 
@@ -41,7 +42,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = TvBackgroundDark
                 ) {
-                    MainDashboardScreen(viewModel = dashboardViewModel)
+                    if (isTelevision) {
+                        TvDashboardScreen(viewModel = dashboardViewModel)
+                    } else {
+                        PhoneHomeScreen(viewModel = dashboardViewModel)
+                    }
                 }
             }
         }

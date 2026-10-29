@@ -9,13 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.ui.screens.DeviceMode
-import com.example.ui.screens.MainDashboardScreen
 import com.example.ui.screens.MainDashboardViewModel
+import com.example.ui.screens.PhoneHomeScreen
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.TvBackgroundDark
 
 /**
- * Android Akıllı Telefonlar İçin Özel Medya İletici ve Bağlantı Aktivitesi.
+ * Android Akıllı Telefonlar İçin Özel Medya İletici ve TV Bağlantı Aktivitesi.
+ * QR kamera tarayıcı, galeri/ses seçici ve sıfır depolama ile canlı TV aktarımını barındırır.
  */
 class PhoneActivity : ComponentActivity() {
 
@@ -25,7 +26,7 @@ class PhoneActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Doğrudan Telefon Medya Gönderici Modunu Başlat
+        // Telefon Medya Gönderici Modunu Başlat
         dashboardViewModel.setDeviceMode(DeviceMode.PHONE_SENDER)
 
         setContent {
@@ -34,7 +35,7 @@ class PhoneActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = TvBackgroundDark
                 ) {
-                    MainDashboardScreen(viewModel = dashboardViewModel)
+                    PhoneHomeScreen(viewModel = dashboardViewModel)
                 }
             }
         }

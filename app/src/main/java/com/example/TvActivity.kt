@@ -9,13 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.ui.screens.DeviceMode
-import com.example.ui.screens.MainDashboardScreen
 import com.example.ui.screens.MainDashboardViewModel
+import com.example.ui.screens.TvDashboardScreen
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.TvBackgroundDark
 
 /**
  * Android TV Cihazları İçin Özel Alıcı, Görüntüleme ve Ana Dashboard Aktivitesi.
+ * Sadece TV'ye özgü 10-foot arayüzü, D-pad kumanda kontrolünü ve eşleştirme QR kodunu barındırır.
  */
 class TvActivity : ComponentActivity() {
 
@@ -25,7 +26,7 @@ class TvActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Doğrudan TV Alıcı ve Dashboard Modunu Başlat
+        // TV Alıcı Modunu Başlat
         dashboardViewModel.setDeviceMode(DeviceMode.TV_HUB)
 
         setContent {
@@ -34,7 +35,7 @@ class TvActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = TvBackgroundDark
                 ) {
-                    MainDashboardScreen(viewModel = dashboardViewModel)
+                    TvDashboardScreen(viewModel = dashboardViewModel)
                 }
             }
         }
